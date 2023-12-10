@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Card } from 'flowbite-react';
+import React, { Suspense, useEffect, useState } from 'react'
+import { Card, Spinner } from 'flowbite-react';
 import '../App.css'
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setProducts, addProductToCart } from '../redux/actions/actions'; 
 import CategoryProducts from './category';
 import ShortLimitFeature from './SortLimit';
+import SpinnerComp from '../common/spinner';
+import ToastAlert from '../common/toast';
+import { success } from './toaster/Toastify';
 
 const Cards = () => {
     const [productData, setProductData] = useState([]);
@@ -56,23 +59,23 @@ const Cards = () => {
         const {id} = event.target;
        productData && productData.map((product)=>{
             if(Number(id) === product.id){
-                
                 dispatch(addProductToCart(product))
+                success("Successfully added to cart!", )
             }else{
                 // console.log("error in add to cart function");
             }
         })
     }
-
-    // console.log(productAllData);
+    
 
     return <>
+    
     <div className='my-[2rem] mx-auto container w-11/12 overflow-hidden relative '>
     <CategoryProducts  getAllProducts = {productsApi} />
     <ShortLimitFeature />
     <div className='container w-11/12 mx-auto my-[3rem] grid grid-cols-4 space-y-6 justify-center items-center gap-[1rem] overflow-auto'>
     
-    { productAllData ?
+    { Object.keys(productAllData).length !== 0 ?
         productAllData.map((data, i)=>{
             return <>
             <Card 
@@ -150,13 +153,12 @@ const Cards = () => {
         </Card>
 
             </>
-        }) : <div className="w-full h-screen opacity-60 flex justify-center items-center">
-                <Spinner className="h-[6rem] w-[6rem] " aria-label="Default status example"/>
-            </div>
+        }) : <SpinnerComp/>
     }
         
     </div>
     </div>
+   
     </>
 }
 export default Cards;

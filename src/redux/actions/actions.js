@@ -34,4 +34,33 @@ const productCategories = (categories) => {
     }
 }
 
-export {setProducts, selectedProducts, deleteProduct, addProductToCart, productCategories};
+const deleteProductToCart = (product) => {
+    return {
+        type : ActionTypes.REMOVE_FROM_CART,
+        payload : product
+    }
+}
+
+const deleteAllCartProduct = () => {
+    return{
+        type : ActionTypes.REMOVE_ALL_CART_PRODUCT,
+    }
+}
+
+const addUserAddress = (user_data) => {
+    return {
+        type : ActionTypes.ADD_USER_ADDRESS,
+        payload : user_data
+    }
+}
+
+// checkout product
+const addCheckoutProducts = (products) => {
+    return {
+        type : ActionTypes.SELECTED_CHECKOUT_PRODUCT,
+        payload : products
+    }
+}
+
+export {setProducts, selectedProducts, deleteProduct, addProductToCart, productCategories, deleteProductToCart, deleteAllCartProduct, addUserAddress, addCheckoutProducts};
+ 

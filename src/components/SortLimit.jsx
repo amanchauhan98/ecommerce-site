@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Dropdown } from 'flowbite-react';
 import {useDispatch} from 'react-redux'
 import { setProducts } from '../redux/actions/actions';
+import SearchFilter from './searchFilter';
 
 const ShortLimitFeature = () => {
     const [filterText, setFilterText] = useState("Filter ")
@@ -51,7 +52,7 @@ const ShortLimitFeature = () => {
 
     return <>
     <div className='container w-11/12 mx-auto mt-[1rem] py-[4rem] overflow-hidden relative flex justify-between'>
-        <div id='shortComp' className='max-w-max h-auto container'>
+        <div id='shortComp' className=' h-auto container w-2/12'>
         <Dropdown label= {`${sortingText} Order`} placement='right' className='bg-white border-[0.01rem] z-10' dismissOnClick={true}>
         {
             shortCompdata.map((data , i)=>{
@@ -64,8 +65,11 @@ const ShortLimitFeature = () => {
             
             
         </Dropdown>
+        </div>   
+        <div id='search-filter' className='h-auto container w-6/12 relative'>
+            <SearchFilter />
         </div>
-        <div id='filterComp' className='max-w-max h-auto container'>
+        <div id='filterComp' className=' h-auto container w-2/12'>
         <Dropdown label= {`${filterText} Products`}  placement='left' className={'bg-white border-[0.01rem] z-10'} dismissOnClick={true}>
             {
                 filterCompdata.map((data, i)=>{
@@ -113,3 +117,4 @@ const shortCompdata = [
 ]
 
 export default ShortLimitFeature;
+                                                      

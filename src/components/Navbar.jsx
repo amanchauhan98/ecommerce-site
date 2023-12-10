@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
 import {useSelector} from 'react-redux'
+import CartList from '../common/cartlist';
+import { Link } from 'react-router-dom';
 
 const NavbarComp =()=> {
 
     const [handleCart, setHandleCart] = useState([])
+    const [showCartList, setShowList] = useState(false);
 
     const cartNumber = useSelector((state)=> state.cartInProducts.cartProduct)
-    // console.log(cartNumber.length);
 
     localStorage.setItem("cartNumber", cartNumber);
     useEffect(()=>{
-        
+
         setHandleCart(cartNumber);
     },[cartNumber])
 
 
   return <>
     <Navbar className='bg-gray-200' fluid rounded>
-      <Navbar.Brand href="https://flowbite-react.com">
+      <Navbar.Brand>
         {/* <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" /> */}
         { handleCart && handleCart.length === 0 ? "" :
-        <div className='relative'>
-            <Button className=' text-white font-bold'>Cart
+        <div className='relative mr-[2rem]'>
+            <Button onClick={()=> setShowList(!showCartList)} className='bg-gray-600 text-white font-bold'>Cart &nbsp;  
             <span>{handleCart.length}</span>
             </Button>
         </div>
@@ -57,8 +59,10 @@ const NavbarComp =()=> {
         <Navbar.Link href="#">Services</Navbar.Link>
         <Navbar.Link href="#">Pricing</Navbar.Link>
         <Navbar.Link href="#">Contact</Navbar.Link>
+        <Link to={'/cartpage'}>Cart</Link>
       </Navbar.Collapse>
     </Navbar>
+    <CartList showList = {showCartList} />
   </>
 }
 

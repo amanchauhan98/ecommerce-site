@@ -12,6 +12,14 @@ const product_category = {
     categories: []
 }
 
+const user_address = {
+    user_address: []
+}
+
+const selected_checkout_products = {
+    checkout_products : []
+}
+
 export const productReducer = (state=initialProducts, {type , payload})=>{
     switch (type) {
         case ActionTypes.SET_PRODUCT:
@@ -37,6 +45,12 @@ export const productCartReducer = (state=initialProductCart, {type, payload}) =>
     switch (type) {
         case ActionTypes.ADD_TO_CART:
             return { ...state, cartProduct : [...state.cartProduct, payload] }
+        case ActionTypes.REMOVE_FROM_CART:
+            const updateCart = state.cartProduct.filter((product)=> product.id !== payload.id)
+            return { ...state, cartProduct : updateCart }   
+        case ActionTypes.REMOVE_ALL_CART_PRODUCT:
+            console.log("empty now")
+            return {...state, cartProduct : []}     
         default:
             return state;
     }
@@ -47,6 +61,27 @@ export const productCategories = (state=product_category, {type, payload}) => {
     switch (type) {
         case ActionTypes.SET_PRODUCT_CATEGORIES:
             return { ... state, categories : payload }
+    
+        default:
+            return state;
+    }
+}
+
+// user address 
+export const userAddressCheckout = (state = user_address, {type , payload}) =>{
+    switch (type) {
+        case ActionTypes.ADD_USER_ADDRESS:
+            return { ...state, user_address : [...state.user_address, payload] }
+        default:
+            return state;
+    }
+}
+
+// checkout products 
+export const checkOutProducts = (state=selected_checkout_products, { type , payload }) =>{
+    switch (type) {
+        case ActionTypes.SELECTED_CHECKOUT_PRODUCT:
+            return { ...state, checkout_products : [ ...state.checkout_products, payload ] }
     
         default:
             return state;
