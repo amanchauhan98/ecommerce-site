@@ -61,6 +61,12 @@ const addCheckoutProducts = (products) => {
         payload : products
     }
 }
+// delete checkout product
+const deleteCheckoutProduct = (products) => {
+    return {
+        type : ActionTypes.DELETE_CHECKOUT_PRODUCT,
+    }
+}
 
-export {setProducts, selectedProducts, deleteProduct, addProductToCart, productCategories, deleteProductToCart, deleteAllCartProduct, addUserAddress, addCheckoutProducts};
+export {setProducts, selectedProducts, deleteProduct, addProductToCart, productCategories, deleteProductToCart, deleteAllCartProduct, addUserAddress, addCheckoutProducts, deleteCheckoutProduct};
  

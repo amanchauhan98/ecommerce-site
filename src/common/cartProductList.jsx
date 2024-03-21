@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import PopUpAlert from "./popup";
-// import SpinnerComp from "./spinner";
 import axios from "axios";
 import { addCheckoutProducts, addProductToCart, deleteAllCartProduct } from "../redux/actions/actions";
 import { useParams } from "react-router-dom";

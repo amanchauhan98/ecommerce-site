@@ -2,14 +2,18 @@ import React, { useState } from 'react'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { Button, Modal } from 'flowbite-react';
 import {useDispatch} from 'react-redux'
-import { deleteAllCartProduct, deleteProductToCart } from '../redux/actions/actions';
+import { addCheckoutProducts, deleteAllCartProduct, deleteCheckoutProduct, deleteProductToCart } from '../redux/actions/actions';
 
 
-const PopUpAlert = ({showModal, productCartData}) => {
+const PopUpAlert = ({showModal, productCartData, id}) => {
     const [openModal, setOpenModal] = useState(showModal);
     const dispatch = useDispatch()
 
     const deleteCartProduct = () => {
+      if(id === "checkoutPage"){
+        dispatch(deleteCheckoutProduct(productCartData));
+        console.log("executed");
+      }
         dispatch(deleteProductToCart(productCartData))
         if(productCartData.length > 1){
           dispatch(deleteAllCartProduct());
@@ -39,3 +43,5 @@ const PopUpAlert = ({showModal, productCartData}) => {
     </>
 }
 export default PopUpAlert;
+
+

@@ -8,12 +8,14 @@ import { addUserAddress } from "../redux/actions/actions";
 import { failed, success } from "./toaster/Toastify";
 import { checkOutProducts } from "../redux/reducer/reducer";
 import { useNavigate } from "react-router-dom";
+import PopUpAlert from "../common/popup";
 
  const Checkout = () => {
 
     const [inputValue, setInputValue] = useState({});
     const dispatch = useDispatch();
     const [checkoutItems  , setCheckoutItems] = useState([]);
+    const [productQty, setProductQty] = useState(2);
     const navigate = useNavigate()
 
 
@@ -265,7 +267,7 @@ import { useNavigate } from "react-router-dom";
             </div>
           </div>
         </div>
-        <ProductCartList checkoutItems = {checkoutItems}  />
+        <ProductCartList checkoutItems = {checkoutItems} productQty={productQty}  />
       </form>
     </div>
   );
@@ -276,7 +278,7 @@ const DropDownComp = ({handleInput, dropdownData, id, value}) => {
     const handleDropdown = (event) => {
         handleInput(event)
     }
-    // console.log("id : ", id , " Value : ", value)
+    
        
     return <>
     <select onChange={handleDropdown} name={id} value={value} className="text-gray-700 text-left rounded-none border-[0.01rem] border-black" style={{backgroundColor:"white", color:"gray", borderRadius:"0px", border:"1px solid black"}} label="Select" dismissOnClick={false}>
@@ -288,8 +290,20 @@ const DropDownComp = ({handleInput, dropdownData, id, value}) => {
     </>
 }
 
-const ProductCartList = ({checkoutItems}) => {
+const ProductCartList = ({checkoutItems, productQty}) => {
+
+  const [productDiscount, setProductDiscount] = useState(20)
+  const [productTax, setProductTax] = useState(30)
+  const [showModal, setShowModal] = useState(false)
+
+  const handleCancelOrder = ()=>{
+    // do something.
+    setShowModal(true);
+  }
+
+
     return <>
+    { showModal ? <PopUpAlert showModal={showModal} productCartData={ checkoutItems } id={"checkoutPage"} /> : null }
     <div className="order-summery">
           <div className="heading">
             <div className="text-wrapper-39">Order Summery</div>
@@ -307,7 +321,7 @@ const ProductCartList = ({checkoutItems}) => {
               <div className="content-5">
                 <p className="p font-medium">{items.title}...</p>
                 <div className="price">
-                  <div className="text-wrapper-40">1 x</div>
+                  <div className="text-wrapper-40">{productQty} x</div>
                   <div className="text-wrapper-41 font-medium">{items?.price}</div>
                 </div>
               </div>
@@ -316,14 +330,13 @@ const ProductCartList = ({checkoutItems}) => {
             </>
            })
           }
-           
             
           </div>
           <div className="total">
             <div className="content-6">
               <div className="frame-5">
                 <div className="text-wrapper-40">Sub-total</div>
-                <div className="text-wrapper-42">$320</div>
+                <div className="text-wrapper-42">${productQty * checkoutItems[0]?.price ? productQty * checkoutItems[0]?.price : 0 }</div>
               </div>
               <div className="frame-5">
                 <div className="text-wrapper-40">Shipping</div>
@@ -331,11 +344,11 @@ const ProductCartList = ({checkoutItems}) => {
               </div>
               <div className="frame-5">
                 <div className="text-wrapper-40">Discount</div>
-                <div className="text-wrapper-42">$24</div>
+                <div className="text-wrapper-42">${productDiscount ? productDiscount : 0}</div>
               </div>
               <div className="frame-5">
                 <div className="text-wrapper-40">Tax</div>
-                <div className="text-wrapper-42">$61.99</div>
+                <div className="text-wrapper-42">${productTax ? productTax : 0}</div>
               </div>
             </div>
             <img
@@ -345,17 +358,15 @@ const ProductCartList = ({checkoutItems}) => {
             />
             <div className="frame-5">
               <div className="text-wrapper-43">Total</div>
-              <div className="text-wrapper-44">$357.99 USD</div>
+              <div className="text-wrapper-44">${((productQty * checkoutItems[0]?.price) + (productDiscount + productTax)).toFixed(2)   }</div>
+            </div>
+            <div className="flex justify-start w-full h-fit gap-3">
+            <button className="text-sm font-medium bg-green-500 text-white px-4 py-2 rounded-md">Place Order</button>
+            <button onClick={handleCancelOrder} className="text-sm font-medium bg-red-500 text-white px-4 py-2 rounded-md">Cancel Order</button>
             </div>
           </div>
-          <button
-            className="button-blue-2"
-            divClassName="button-blue-3"
-            property1="default"
-            text="Place Order"
-          />
+          
         </div>
-
     </>
 }
 

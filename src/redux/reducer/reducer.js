@@ -82,6 +82,8 @@ export const checkOutProducts = (state=selected_checkout_products, { type , payl
     switch (type) {
         case ActionTypes.SELECTED_CHECKOUT_PRODUCT:
             return { ...state, checkout_products : [ ...state.checkout_products, payload ] }
+        case ActionTypes.DELETE_CHECKOUT_PRODUCT:
+                return { ...state, checkout_products : [] }
     
         default:
             return state;

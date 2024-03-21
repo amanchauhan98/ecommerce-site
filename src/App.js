@@ -8,6 +8,7 @@ import NavbarComp from "./components/Navbar";
 import SpinnerComp from "./common/spinner";
 import { ToastContainer } from "react-toastify";
 import CheckoutPage from "./components/checkoutpage";
+// import TempComp from "./pages/temp";
 
 
 const Cards = React.lazy(()=> import('./components/Cards'))
@@ -64,6 +65,14 @@ function App() {
               </Suspense>
             }
           />
+          {/* <Route
+            path="/temp"
+            element={
+              <Suspense fallback={<SpinnerComp/>}>
+                <TempComp />
+              </Suspense>
+            }
+          /> */}
 
         </Routes>
       </BrowserRouter>
